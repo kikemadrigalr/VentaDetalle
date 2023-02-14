@@ -69,6 +69,7 @@
 
 @section Scripts{
     <script>
+        //agregar filas a la tabla de detalle de venta con la informacion de los inputs
         $("#btnAgregar").on("click", function () {
             var total = parseFloat($("#txtPrecio").val()) * parseFloat($("#txtCantidad").val())
 
@@ -81,5 +82,42 @@
                 )
             )
         })
+
+        //Configurar boton de finalizar ventas 
+        //crear objeto con la informacion de los inputs para ser enviada al controlador
+        $("#btnTerminar").on("click", function () {
+            var detalle_venta = [];
+            var total = 0;
+
+            //acceder a las fiilas de la tabla producto
+            $("#tbProducto > tbody > tr").each(function(index,tr){
+                console.log(tr);
+                console.log($(tr).find("td:eq(0)").text());
+                //este objeto que se crea es una representacion del modelo venta
+                detalle_venta.push(
+                    {
+                        Producto: $(tr).find("td:eq(0)").text(),
+                        Precio: parseFloat($(tr).find("td:eq(1)").text()),
+                        Cantidad: parseInt($(tr).find("td:eq(2)").text()),
+                        total: parseFloat($(tr).find("td:eq(3)").text())
+                    }
+                )
+                total = total + parseFloat($(tr).find("td:eq(3)").text());
+            })
+            
+            console.log(detalle_venta);
+
+            //crear detalle de la venta representando al modelo dettalle venta
+
+            var venta = {
+                NumeroDocumento: $("#txtNumeroDocumento").val(),
+                RazonSocial: $("#txtRazonSocial").val(),
+                total: total,
+                ListVentaDetalle: detalle_venta
+            }
+
+            console.log(venta);
+        })
+
     </script>
 }
