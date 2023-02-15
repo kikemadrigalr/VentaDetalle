@@ -117,6 +117,23 @@
             }
 
             console.log(venta);
+
+            //enviar el json construido al backend 
+            //se enviara al metodo GuardarVeta del controlador Home
+            jQuery.ajax({
+                url: "@Url.Action("GuardarVenta","Home")",
+                type: "POST",
+                data: JSON.stringify(venta),
+                dataType: "json",
+                contentType : "application/json; charset=utf8",
+                success: function(data){
+                    console.log(data)
+
+                    if (data.respuesta == true) {
+                        alert("Venta Registrada");
+                    }
+                }
+            })
         })
 
     </script>
